@@ -7,6 +7,7 @@ import android.view.Menu;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.Toast;
 
 public class MainActivity extends Activity {
     WebView myWebView;
@@ -30,6 +31,11 @@ public class MainActivity extends Activity {
             @Override
             public void onPageFinished(WebView wv, String url){
                 dialog.dismiss();
+            }
+
+            @Override
+            public void onReceivedError(WebView view, int errorCode, String description, String failingUrl){
+                Toast.makeText(MainActivity.this, "Oh no! " + description, Toast.LENGTH_SHORT).show();
             }
         });
     }
