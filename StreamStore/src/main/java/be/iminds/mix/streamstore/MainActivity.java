@@ -16,10 +16,12 @@ public class MainActivity extends Activity {
     WebView myWebView;
     MyProgressDialog dialog;
     SensorData sensorData;
+    String lastOriginalUrl = "";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+//        Comment this for testing in emulator
         sensorData = new SensorData(MainActivity.this);
         myWebView = (WebView) findViewById(R.id.webview);
         WebSettings webSettings = myWebView.getSettings();
@@ -32,13 +34,18 @@ public class MainActivity extends Activity {
                 return true;
             }
         });
+//        Comment this for testing in emulator
         myWebView.addJavascriptInterface(sensorData, "Android");
         myWebView.loadUrl("http://straalstroom.mixlab.be");
         myWebView.setWebViewClient(new WebViewClient(){
+//              problem with redirects in Android > 3 (http://www.catchingtales.com/android-webview-shouldoverrideurlloading-and-redirect/416/)
             @Override
             public boolean shouldOverrideUrlLoading(WebView wv, String url){
-//                if(dialog.isShowing()) dialog.hide();
-                dialog = MyProgressDialog.show(MainActivity.this, null, null, true, false, null);
+                if(wv.getOriginalUrl()== null || !lastOriginalUrl.equals(wv.getOriginalUrl())){
+                    dialog = MyProgressDialog.show(MainActivity.this, null, null, true, false, null);
+                }
+                Log.d("MyApplication", "shouldoverride: "+ url+" original: "+wv.getOriginalUrl());
+                lastOriginalUrl = (wv.getOriginalUrl() != null) ? wv.getOriginalUrl(): "";
                 wv.loadUrl(url);
                 return true;
             }
@@ -46,6 +53,7 @@ public class MainActivity extends Activity {
             @Override
             public void onPageFinished(WebView wv, String url){
                 if(dialog.isShowing()) dialog.dismiss();
+                Log.d("MyApplication", "pagefinished: " + url +" original: "+wv.getOriginalUrl());
 //                Toast.makeText(MainActivity.this, sensorData.toString(), Toast.LENGTH_LONG).show();
             }
 
