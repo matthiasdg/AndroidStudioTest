@@ -22,7 +22,7 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 //        Comment this for testing in emulator
-        sensorData = new SensorData(MainActivity.this);
+//        sensorData = new SensorData(MainActivity.this);
         myWebView = (WebView) findViewById(R.id.webview);
         WebSettings webSettings = myWebView.getSettings();
         webSettings.setJavaScriptEnabled(true);
@@ -35,8 +35,8 @@ public class MainActivity extends Activity {
             }
         });
 //        Comment this for testing in emulator
-        myWebView.addJavascriptInterface(sensorData, "Android");
-        myWebView.loadUrl("http://straalstroom.mixlab.be");
+//        myWebView.addJavascriptInterface(sensorData, "Android");
+        myWebView.loadUrl("http://10.100.11.66:3000");
         myWebView.setWebViewClient(new WebViewClient(){
 //              problem with redirects in Android > 3 (http://www.catchingtales.com/android-webview-shouldoverrideurlloading-and-redirect/416/)
             @Override
@@ -52,14 +52,14 @@ public class MainActivity extends Activity {
 
             @Override
             public void onPageFinished(WebView wv, String url){
-                if(dialog.isShowing()) dialog.dismiss();
+                if(dialog != null && dialog.isShowing()) dialog.dismiss();
                 Log.d("MyApplication", "pagefinished: " + url +" original: "+wv.getOriginalUrl());
 //                Toast.makeText(MainActivity.this, sensorData.toString(), Toast.LENGTH_LONG).show();
             }
 
             @Override
             public void onReceivedError(WebView view, int errorCode, String description, String failingUrl){
-                if(dialog.isShowing()) dialog.dismiss();
+                if(dialog != null && dialog.isShowing()) dialog.dismiss();
                 Toast.makeText(MainActivity.this, "Oh no! " + description, Toast.LENGTH_SHORT).show();
             }
         });
