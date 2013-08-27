@@ -1,5 +1,6 @@
 package be.iminds.mix.streamstore;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.app.Activity;
 import android.util.Log;
@@ -11,19 +12,35 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
+import android.content.pm.ActivityInfo;
 
 public class MainActivity extends Activity {
     WebView myWebView;
     MyProgressDialog dialog;
     SensorData sensorData;
     String lastOriginalUrl = "";
+    String device ="";
+    String osversion = Build.VERSION.RELEASE;
+    String devicemodel = Build.MANUFACTURER + " " + Build.PRODUCT;
+    String natief = "true";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        boolean tabletSize = getResources().getBoolean(R.bool.isTablet);
+        if(tabletSize){
+            this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+            device = "tablet";
+        }else{
+            this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+            device = "smartphone";
+        }
         setContentView(R.layout.activity_main);
 //        Comment this for testing in emulator
 //        sensorData = new SensorData(MainActivity.this);
+//        HeartRateTracker hr = new HeartRateTracker(MainActivity.this,MainActivity.this );
+        String userAgentString = "{\"device\":\"" + device + "\",\"os\": \"Android\",\"osversion\":\"" + osversion + "\",\"devicemodel\":\""+ devicemodel + "\",\"native\": " + natief + "}";
         myWebView = (WebView) findViewById(R.id.webview);
+        myWebView.getSettings().setUserAgentString(userAgentString);
         WebSettings webSettings = myWebView.getSettings();
         webSettings.setJavaScriptEnabled(true);
         myWebView.setWebChromeClient(new WebChromeClient() {
@@ -36,7 +53,7 @@ public class MainActivity extends Activity {
         });
 //        Comment this for testing in emulator
 //        myWebView.addJavascriptInterface(sensorData, "Android");
-        myWebView.loadUrl("http://10.100.11.66:3000");
+        myWebView.loadUrl("http://straalstroom.mixlab.be");
         myWebView.setWebViewClient(new WebViewClient(){
 //              problem with redirects in Android > 3 (http://www.catchingtales.com/android-webview-shouldoverrideurlloading-and-redirect/416/)
             @Override
@@ -61,6 +78,11 @@ public class MainActivity extends Activity {
             public void onReceivedError(WebView view, int errorCode, String description, String failingUrl){
                 if(dialog != null && dialog.isShowing()) dialog.dismiss();
                 Toast.makeText(MainActivity.this, "Oh no! " + description, Toast.LENGTH_SHORT).show();
+//                runOnUiThread(new Runnable(){
+//                    @Override
+//                    public void run()
+//                    {}
+//                });
             }
         });
     }
