@@ -6,6 +6,8 @@ import android.app.Activity;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
+import android.view.MotionEvent;
+import android.view.View;
 import android.webkit.ConsoleMessage;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
@@ -23,6 +25,8 @@ public class MainActivity extends Activity {
     String osversion = Build.VERSION.RELEASE;
     String devicemodel = Build.MANUFACTURER + " " + Build.PRODUCT;
     String natief = "true";
+    String baseUserAgent = "";
+    String userAgentString = "";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,10 +40,22 @@ public class MainActivity extends Activity {
         }
         setContentView(R.layout.activity_main);
 //        Comment this for testing in emulator
-//        sensorData = new SensorData(MainActivity.this);
+        sensorData = new SensorData(MainActivity.this);
 //        HeartRateTracker hr = new HeartRateTracker(MainActivity.this,MainActivity.this );
-        String userAgentString = "{\"device\":\"" + device + "\",\"os\": \"Android\",\"osversion\":\"" + osversion + "\",\"devicemodel\":\""+ devicemodel + "\",\"native\": " + natief + "}";
+        baseUserAgent = "{\"device\":\"" + device + "\",\"os\": \"Android\",\"osversion\":\"" + osversion + "\",\"devicemodel\":\""+ devicemodel + "\",\"native\": " + natief + ",";
         myWebView = (WebView) findViewById(R.id.webview);
+        myWebView.setOnTouchListener(new View.OnTouchListener() {
+            public boolean onTouch(View v, MotionEvent event) {
+                if(event.getAction() == MotionEvent.ACTION_DOWN){
+                    userAgentString = baseUserAgent + sensorData.toString() + "}";
+                    myWebView.getSettings().setUserAgentString(userAgentString);
+                    Log.d("TOUCHDOWN!", event.toString());
+//                event moet nog geprocessed worden in webview
+                }
+                return false;
+            }
+        });
+        userAgentString = baseUserAgent + sensorData.toString() + "}";
         myWebView.getSettings().setUserAgentString(userAgentString);
         WebSettings webSettings = myWebView.getSettings();
         webSettings.setJavaScriptEnabled(true);
@@ -92,8 +108,12 @@ public class MainActivity extends Activity {
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         // Check if the key event was the Back button and if there's history
         if ((keyCode == KeyEvent.KEYCODE_BACK) && myWebView.canGoBack()) {
-            myWebView.goBack();
-            return true;
+//            FILTHY HACK!!!
+            if(!myWebView.getUrl().endsWith("/reader/") && !myWebView.getUrl().endsWith("/reader/#streams/now")){
+                myWebView.goBack();
+                Log.d("TOUCHDOWN!", myWebView.getUrl());
+                return true;
+            }
         }
         // If it wasn't the Back key or there's no web page history, bubble up to the default
         // system behavior (probably exit the activity)
@@ -107,5 +127,5 @@ public class MainActivity extends Activity {
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
-    
+
 }

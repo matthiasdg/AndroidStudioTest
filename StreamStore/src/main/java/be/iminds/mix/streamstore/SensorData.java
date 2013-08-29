@@ -25,21 +25,27 @@ public class SensorData {
     @JavascriptInterface
     public String toString(){
         String accelString = "{\"x\":"+linear_acceleration[0]+",\"y\":"+linear_acceleration[1]+",\"z\":"+linear_acceleration[2]+"}";
-        sensorData = "{" +
-                "\"location\":{\"provider\":\""+myLocation.getProvider()+"\","+
-                            "\"time\":" + myLocation.getTime()+","+
-                            "\"latitude\":" + myLocation.getLatitude()+","+
-                            "\"longitude\":" +myLocation.getLongitude()+","+
-                            "\"hasAltitude\":" + myLocation.hasAltitude()+","+
-                            "\"altitude\":" + myLocation.getAltitude()+","+
-                            "\"hasSpeed\":" + myLocation.hasSpeed()+","+
-                            "\"speed\":" + myLocation.getSpeed()+","+
-                            "\"hasBearing\":" + myLocation.hasBearing()+","+
-                            "\"bearing\":" + myLocation.getBearing()+ ","+
-                            "\"hasAccuracy\":"+ myLocation.hasAccuracy()+","+
-                            "\"accuracy\":"+ myLocation.getAccuracy()+ "},"+
+        if(myLocation != null){
+            sensorData =
+                    "\"location\":{\"provider\":\""+myLocation.getProvider()+"\","+
+                                "\"time\":" + myLocation.getTime()+","+
+                                "\"latitude\":" + myLocation.getLatitude()+","+
+                                "\"longitude\":" +myLocation.getLongitude()+","+
+                                "\"hasAltitude\":" + myLocation.hasAltitude()+","+
+                                "\"altitude\":" + myLocation.getAltitude()+","+
+                                "\"hasSpeed\":" + myLocation.hasSpeed()+","+
+                                "\"speed\":" + myLocation.getSpeed()+","+
+                                "\"hasBearing\":" + myLocation.hasBearing()+","+
+                                "\"bearing\":" + myLocation.getBearing()+ ","+
+                                "\"hasAccuracy\":"+ myLocation.hasAccuracy()+","+
+                                "\"accuracy\":"+ myLocation.getAccuracy()+ "},";
+        }
+        else{
+            sensorData = "";
+        }
+        sensorData +=
                 "\"acceleration\":"+ accelString+ ","+
-                "\"light\":"+ light + "}";
+                "\"light\":"+ light;
         return sensorData;
     }
 
@@ -111,8 +117,9 @@ public class SensorData {
 
 // Register the listener with the Location Manager to receive location updates
 //        om de 300000 ms of 5 minuten checken
-        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 300000, 0, locationListener);
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 300000, 0, locationListener);
+//        Log.d("LOCATION", String.valueOf(locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)));
+        if(locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 300000, 0, locationListener);
+        if(locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER))locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 300000, 0, locationListener);
         myLocation = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
     }
     /** Determines whether one Location reading is better than the current Location fix
