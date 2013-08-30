@@ -9,7 +9,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.webkit.JavascriptInterface;
+
 
 
 /**
@@ -22,7 +22,7 @@ public class SensorData {
     float[] linear_acceleration;
     float light;
     // this can be called from javascript
-    @JavascriptInterface
+//    @JavascriptInterface -> not anymore since we use the user agent
     public String toString(){
         String accelString = "{\"x\":"+linear_acceleration[0]+",\"y\":"+linear_acceleration[1]+",\"z\":"+linear_acceleration[2]+"}";
         if(myLocation != null){
