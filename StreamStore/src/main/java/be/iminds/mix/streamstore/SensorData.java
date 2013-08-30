@@ -9,7 +9,10 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.util.Log;
 
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -20,7 +23,7 @@ public class SensorData {
     String sensorData;
     Location myLocation;
     LocationManager locationManager;
-    LocationListener locationListener;
+    List<LocationListener> locationListeners;
     float[] linear_acceleration;
     float light;
     // this can be called from javascript
@@ -56,6 +59,7 @@ public class SensorData {
         linear_acceleration = new float[3];
         final float[] gravity = new float[3];
         locationManager = (LocationManager) ctx.getSystemService(Context.LOCATION_SERVICE);
+        locationListeners = new ArrayList<LocationListener>();
         SensorManager sensorManager = (SensorManager) ctx.getSystemService(Context.SENSOR_SERVICE);
         Sensor acSensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         Sensor lightSensor = sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT);
@@ -100,28 +104,15 @@ public class SensorData {
         sensorManager.registerListener(acListener, acSensor, 500000);
         sensorManager.registerListener(lightListener, lightSensor, 5000000);
 
-// Define a listener that responds to location updates
-        locationListener = new LocationListener() {
-            @Override
-            public void onLocationChanged(Location location) {
-                // Called when a new location is found by the location provider.
-                if(isBetterLocation(location, myLocation)){
-                    myLocation = location;
-                }
-            }
-            @Override
-            public void onStatusChanged(String provider, int status, Bundle extras) {}
-            @Override
-            public void onProviderEnabled(String provider) {}
-            @Override
-            public void onProviderDisabled(String provider) {}
-        };
+
 
 // Register the listener with the Location Manager to receive location updates
 //        om de 300000 ms of 5 minuten checken
 //        Log.d("LOCATION", String.valueOf(locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)));
-        if(locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 300000, 0, locationListener);
-        if(locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER))locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 300000, 0, locationListener);
+//        NOT HERE SINCE ONRESUME IS EXECUTED EVERY TIME!!!!
+//        if(locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 10000, 0, locationListeners.get(0));
+//        if(locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER))locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 10000, 0, locationListeners.get(1));
+//        network more logical for last-known
         myLocation = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
     }
     /** Determines whether one Location reading is better than the current Location fix
@@ -182,6 +173,41 @@ public class SensorData {
 
     public void stop(){
         // Remove the listener you previously added
-        locationManager.removeUpdates(locationListener);
+        for(int i = 0; i < locationListeners.size(); i++){
+            locationManager.removeUpdates(locationListeners.get(i));
+            Log.d("STREAMSTORE", "removed listeners");
+        }
+        locationListeners.clear();
+    }
+
+    public void resume(){
+        int nrListeners = 0;
+        if(locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) nrListeners++;
+        if(locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) nrListeners++;
+        // Define a listener that responds to location updates
+//        separate for GPS and network
+        for(int i = 0; i < nrListeners; i++){
+            Log.d("STREAMSTORE", "creating new listener");
+            LocationListener locListener = new LocationListener() {
+                @Override
+                public void onLocationChanged(Location location) {
+                    // Called when a new location is found by the location provider.
+                    Log.d("STREAMSTORE", location.getProvider());
+                    if(isBetterLocation(location, myLocation)){
+                        myLocation = location;
+                        Log.d("STREAMSTORE", myLocation.toString());
+                    }
+                }
+                @Override
+                public void onStatusChanged(String provider, int status, Bundle extras) {}
+                @Override
+                public void onProviderEnabled(String provider) {}
+                @Override
+                public void onProviderDisabled(String provider) {}
+            };
+            locationListeners.add(locListener);
+        }
+        if(locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 10000, 0, locationListeners.get(0));
+        if(locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER))locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 10000, 0, locationListeners.get(1));
     }
 }

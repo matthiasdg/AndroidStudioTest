@@ -108,6 +108,18 @@ public class MainActivity extends Activity {
             }
         });
     }
+    @Override
+    protected void onResume(){
+        super.onResume();
+        sensorData.resume();
+    }
+
+    @Override
+    protected void onPause(){
+        super.onPause();
+        sensorData.stop();
+
+    }
 
 
     @Override
@@ -123,7 +135,6 @@ public class MainActivity extends Activity {
         }
         // If it wasn't the Back key or there's no web page history, bubble up to the default
         // system behavior (probably exit the activity)
-        sensorData.stop();
         return super.onKeyDown(keyCode, event);
     }
 
