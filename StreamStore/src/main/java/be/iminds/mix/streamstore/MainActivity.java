@@ -20,6 +20,7 @@ public class MainActivity extends Activity {
     WebView myWebView;
     MyProgressDialog dialog;
     SensorData sensorData;
+    NetworkState networkState;
     String lastOriginalUrl = "";
     String device ="";
     String osversion = Build.VERSION.RELEASE;
@@ -41,13 +42,14 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
 //        Comment this for testing in emulator
         sensorData = new SensorData(MainActivity.this);
+        networkState = new NetworkState(MainActivity.this);
 //        HeartRateTracker hr = new HeartRateTracker(MainActivity.this,MainActivity.this );
         baseUserAgent = "{\"device\":\"" + device + "\",\"os\": \"Android\",\"osversion\":\"" + osversion + "\",\"devicemodel\":\""+ devicemodel + "\",\"native\": " + natief + ",";
         myWebView = (WebView) findViewById(R.id.webview);
         myWebView.setOnTouchListener(new View.OnTouchListener() {
             public boolean onTouch(View v, MotionEvent event) {
                 if(event.getAction() == MotionEvent.ACTION_DOWN){
-                    userAgentString = baseUserAgent + sensorData.toString() + "}";
+                    userAgentString = baseUserAgent + sensorData.toString() + ","+ networkState.toString() + "}";
                     myWebView.getSettings().setUserAgentString(userAgentString);
                     Log.d("TOUCHDOWN!", event.toString());
 //                event moet nog geprocessed worden in webview
@@ -55,7 +57,7 @@ public class MainActivity extends Activity {
                 return false;
             }
         });
-        userAgentString = baseUserAgent + sensorData.toString() + "}";
+        userAgentString = baseUserAgent + sensorData.toString() + ","+ networkState.toString() + "}";
         myWebView.getSettings().setUserAgentString(userAgentString);
         WebSettings webSettings = myWebView.getSettings();
         webSettings.setJavaScriptEnabled(true);
