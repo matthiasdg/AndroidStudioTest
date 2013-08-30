@@ -19,6 +19,8 @@ public class SensorData {
     private static final int TWO_MINUTES = 1000 * 60 * 2;
     String sensorData;
     Location myLocation;
+    LocationManager locationManager;
+    LocationListener locationListener;
     float[] linear_acceleration;
     float light;
     // this can be called from javascript
@@ -53,7 +55,7 @@ public class SensorData {
         // Acquire a reference to the system Location Manager
         linear_acceleration = new float[3];
         final float[] gravity = new float[3];
-        LocationManager locationManager = (LocationManager) ctx.getSystemService(Context.LOCATION_SERVICE);
+        locationManager = (LocationManager) ctx.getSystemService(Context.LOCATION_SERVICE);
         SensorManager sensorManager = (SensorManager) ctx.getSystemService(Context.SENSOR_SERVICE);
         Sensor acSensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         Sensor lightSensor = sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT);
@@ -99,7 +101,7 @@ public class SensorData {
         sensorManager.registerListener(lightListener, lightSensor, 5000000);
 
 // Define a listener that responds to location updates
-        LocationListener locationListener = new LocationListener() {
+        locationListener = new LocationListener() {
             @Override
             public void onLocationChanged(Location location) {
                 // Called when a new location is found by the location provider.
@@ -176,5 +178,10 @@ public class SensorData {
             return provider2 == null;
         }
         return provider1.equals(provider2);
+    }
+
+    public void stop(){
+        // Remove the listener you previously added
+        locationManager.removeUpdates(locationListener);
     }
 }

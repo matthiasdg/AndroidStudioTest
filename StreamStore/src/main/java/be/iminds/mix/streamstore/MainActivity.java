@@ -21,6 +21,7 @@ public class MainActivity extends Activity {
     MyProgressDialog dialog;
     SensorData sensorData;
     NetworkState networkState;
+    BatteryState batteryState;
     String lastOriginalUrl = "";
     String device ="";
     String osversion = Build.VERSION.RELEASE;
@@ -43,21 +44,23 @@ public class MainActivity extends Activity {
 //        Comment this for testing in emulator
         sensorData = new SensorData(MainActivity.this);
         networkState = new NetworkState(MainActivity.this);
+        batteryState = new BatteryState(MainActivity.this);
+
 //        HeartRateTracker hr = new HeartRateTracker(MainActivity.this,MainActivity.this );
         baseUserAgent = "{\"device\":\"" + device + "\",\"os\": \"Android\",\"osversion\":\"" + osversion + "\",\"devicemodel\":\""+ devicemodel + "\",\"native\": " + natief + ",";
         myWebView = (WebView) findViewById(R.id.webview);
         myWebView.setOnTouchListener(new View.OnTouchListener() {
             public boolean onTouch(View v, MotionEvent event) {
                 if(event.getAction() == MotionEvent.ACTION_DOWN){
-                    userAgentString = baseUserAgent + sensorData.toString() + ","+ networkState.toString() + "}";
+                    userAgentString = baseUserAgent + sensorData.toString() + ","+ networkState.toString() + "," + batteryState.toString() +"}";
                     myWebView.getSettings().setUserAgentString(userAgentString);
-                    Log.d("TOUCHDOWN!", event.toString());
+                    Log.d("TOUCHDOWN!", userAgentString);
 //                event moet nog geprocessed worden in webview
                 }
                 return false;
             }
         });
-        userAgentString = baseUserAgent + sensorData.toString() + ","+ networkState.toString() + "}";
+        userAgentString = baseUserAgent + sensorData.toString() + ","+ networkState.toString() + "," + batteryState.toString() + "}";
         myWebView.getSettings().setUserAgentString(userAgentString);
         WebSettings webSettings = myWebView.getSettings();
         webSettings.setJavaScriptEnabled(true);
@@ -120,6 +123,7 @@ public class MainActivity extends Activity {
         }
         // If it wasn't the Back key or there's no web page history, bubble up to the default
         // system behavior (probably exit the activity)
+        sensorData.stop();
         return super.onKeyDown(keyCode, event);
     }
 
