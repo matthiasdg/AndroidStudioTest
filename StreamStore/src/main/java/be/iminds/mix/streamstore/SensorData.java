@@ -5,6 +5,8 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -13,6 +15,7 @@ import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 
 /**
@@ -24,11 +27,21 @@ public class SensorData {
     Location myLocation;
     LocationManager locationManager;
     List<LocationListener> locationListeners;
+    Geocoder geoCoder;
+    Address address1;
     float[] linear_acceleration;
     float light;
     // this can be called from javascript
 //    @JavascriptInterface -> not anymore since we use the user agent
     public String toString(){
+        String[] address = {"", "", "", "", ""};
+        if(address1!=null){
+            if(address1.getAddressLine(0) != null) address[0] = address1.getAddressLine(0);
+            if(address1.getPostalCode() != null) address[1] = address1.getPostalCode();
+            if(address1.getSubLocality() != null) address[2] = address1.getSubLocality();
+            if(address1.getLocality() != null) address[3] = address1.getLocality();
+            if(address1.getCountryName() != null) address[4] = address1.getCountryName();
+        }
         String accelString = "{\"x\":"+linear_acceleration[0]+",\"y\":"+linear_acceleration[1]+",\"z\":"+linear_acceleration[2]+"}";
         if(myLocation != null){
             sensorData =
@@ -43,7 +56,13 @@ public class SensorData {
                                 "\"hasBearing\":" + myLocation.hasBearing()+","+
                                 "\"bearing\":" + myLocation.getBearing()+ ","+
                                 "\"hasAccuracy\":"+ myLocation.hasAccuracy()+","+
-                                "\"accuracy\":"+ myLocation.getAccuracy()+ "},";
+                                "\"accuracy\":"+ myLocation.getAccuracy()+ "," +
+                                "\"street\":\"" + address[0] + "\"," +
+                                "\"postalcode\":\"" + address[1] + "\"," +
+                                "\"sublocality\":\"" + address[2] + "\"," +
+                                "\"locality\":\"" + address[3] + "\"," +
+                                "\"country\":\""+ address[4] + "\"" +
+                            "},";
         }
         else{
             sensorData = "";
@@ -55,7 +74,9 @@ public class SensorData {
     }
 
     public SensorData(Context ctx){
-        // Acquire a reference to the system Location Manager
+//        locale nederlands; resultaten in nl
+        Locale locale = new Locale("nl", "BE");
+        geoCoder = new Geocoder(ctx, locale);
         linear_acceleration = new float[3];
         final float[] gravity = new float[3];
         locationManager = (LocationManager) ctx.getSystemService(Context.LOCATION_SERVICE);
@@ -114,12 +135,28 @@ public class SensorData {
 //        if(locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER))locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 10000, 0, locationListeners.get(1));
 //        network more logical for last-known
         myLocation = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+//        LAST ADDRESS
+        address1 = convertLocationToAddress(myLocation);
+
+    }
+
+    protected Address convertLocationToAddress(Location location){
+        List<Address> addresses = null;
+        try{
+            addresses = geoCoder.getFromLocation(location.getLatitude(), location.getLongitude(),1);
+        }catch(Exception e){
+            e.printStackTrace();
+            return null;
+        }
+        if(addresses!=null && !addresses.isEmpty()){
+            return addresses.get(0);
+        }
+        return null;
     }
     /** Determines whether one Location reading is better than the current Location fix
      * @param location  The new Location that you want to evaluate
      * @param currentBestLocation  The current Location fix, to which you want to compare the new one
      */
-
 //    2 minutes maar laten staan, aangezien we zowel gps als netwerk gebruiken
     protected boolean isBetterLocation(Location location, Location currentBestLocation) {
         if (currentBestLocation == null) {
@@ -195,7 +232,7 @@ public class SensorData {
                     Log.d("STREAMSTORE", location.getProvider());
                     if(isBetterLocation(location, myLocation)){
                         myLocation = location;
-                        Log.d("STREAMSTORE", myLocation.toString());
+                        address1 = convertLocationToAddress(myLocation);
                     }
                 }
                 @Override
