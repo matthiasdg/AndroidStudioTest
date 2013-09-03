@@ -1,5 +1,8 @@
 package be.iminds.mix.streamstore;
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Build;
 import android.os.Bundle;
 import android.app.Activity;
@@ -22,6 +25,8 @@ public class MainActivity extends Activity {
     SensorData sensorData;
     NetworkState networkState;
     BatteryState batteryState;
+    ActivityRecognizer acrec;
+    ActivityRecognitionReceiver receiver;
     String lastOriginalUrl = "";
     String device ="";
     String osversion = Build.VERSION.RELEASE;
@@ -29,8 +34,18 @@ public class MainActivity extends Activity {
     String natief = "true";
     String baseUserAgent = "";
     String userAgentString = "";
+    public String activityState;
+    IntentFilter intentFilter;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        intentFilter = new IntentFilter("StreamStore");
+        receiver = new ActivityRecognitionReceiver();
+        activityState = "\"activity\":\"unknown\"";
+        acrec = new ActivityRecognizer(MainActivity.this);
+        acrec.onCreate(savedInstanceState);
+//        acrec.startUpdates();
         super.onCreate(savedInstanceState);
         boolean tabletSize = getResources().getBoolean(R.bool.isTablet);
         if(tabletSize){
@@ -45,14 +60,13 @@ public class MainActivity extends Activity {
         sensorData = new SensorData(MainActivity.this);
         networkState = new NetworkState(MainActivity.this);
         batteryState = new BatteryState(MainActivity.this);
-
 //        HeartRateTracker hr = new HeartRateTracker(MainActivity.this,MainActivity.this );
         baseUserAgent = "{\"device\":\"" + device + "\",\"os\": \"Android\",\"osversion\":\"" + osversion + "\",\"devicemodel\":\""+ devicemodel + "\",\"native\": " + natief + ",";
         myWebView = (WebView) findViewById(R.id.webview);
         myWebView.setOnTouchListener(new View.OnTouchListener() {
             public boolean onTouch(View v, MotionEvent event) {
                 if(event.getAction() == MotionEvent.ACTION_DOWN){
-                    userAgentString = baseUserAgent + sensorData.toString() + ","+ networkState.toString() + "," + batteryState.toString() +"}";
+                    userAgentString = baseUserAgent + sensorData.toString() + ","+ networkState.toString() + "," + batteryState.toString() +","+ activityState.toString() + "}";
                     myWebView.getSettings().setUserAgentString(userAgentString);
                     Log.d("TOUCHDOWN!", userAgentString);
 //                event moet nog geprocessed worden in webview
@@ -60,7 +74,7 @@ public class MainActivity extends Activity {
                 return false;
             }
         });
-        userAgentString = baseUserAgent + sensorData.toString() + ","+ networkState.toString() + "," + batteryState.toString() + "}";
+        userAgentString = baseUserAgent + sensorData.toString() + ","+ networkState.toString() + "," + batteryState.toString() +","+ activityState.toString() + "}";
         myWebView.getSettings().setUserAgentString(userAgentString);
         WebSettings webSettings = myWebView.getSettings();
         webSettings.setJavaScriptEnabled(true);
@@ -111,13 +125,22 @@ public class MainActivity extends Activity {
     @Override
     protected void onResume(){
         super.onResume();
+        receiver = new ActivityRecognitionReceiver();
+        registerReceiver(receiver, intentFilter);
         sensorData.resume();
+        acrec.startUpdates();
     }
 
     @Override
     protected void onPause(){
         super.onPause();
         sensorData.stop();
+        acrec.stopUpdates();
+        try{
+            unregisterReceiver(receiver);
+        }catch(Exception e){
+            Log.d("StreamStore", e.toString());
+        }
 
     }
 
