@@ -1,7 +1,6 @@
 package be.iminds.mix.streamstore;
 
-import android.content.Context;
-import android.content.Intent;
+
 import android.content.IntentFilter;
 import android.os.Build;
 import android.os.Bundle;
@@ -66,7 +65,7 @@ public class MainActivity extends Activity {
         myWebView.setOnTouchListener(new View.OnTouchListener() {
             public boolean onTouch(View v, MotionEvent event) {
                 if(event.getAction() == MotionEvent.ACTION_DOWN){
-                    userAgentString = baseUserAgent + sensorData.toString() + ","+ networkState.toString() + "," + batteryState.toString() +","+ activityState.toString() + "}";
+                    userAgentString = baseUserAgent + sensorData.toString() + ","+ networkState.toString() + "," + batteryState.toString() +","+ activityState + "}";
                     myWebView.getSettings().setUserAgentString(userAgentString);
                     Log.d("TOUCHDOWN!", userAgentString);
 //                event moet nog geprocessed worden in webview
@@ -74,7 +73,7 @@ public class MainActivity extends Activity {
                 return false;
             }
         });
-        userAgentString = baseUserAgent + sensorData.toString() + ","+ networkState.toString() + "," + batteryState.toString() +","+ activityState.toString() + "}";
+        userAgentString = baseUserAgent + sensorData.toString() + ","+ networkState.toString() + "," + batteryState.toString() +","+ activityState + "}";
         myWebView.getSettings().setUserAgentString(userAgentString);
         WebSettings webSettings = myWebView.getSettings();
         webSettings.setJavaScriptEnabled(true);

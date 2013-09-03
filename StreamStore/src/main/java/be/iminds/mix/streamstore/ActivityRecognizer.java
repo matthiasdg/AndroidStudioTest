@@ -1,9 +1,7 @@
 package be.iminds.mix.streamstore;
 
 import android.app.Activity;
-import android.app.Dialog;
 import android.app.PendingIntent;
-import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.os.Bundle;
@@ -56,14 +54,13 @@ public class ActivityRecognizer implements
     private ActivityRecognitionClient mActivityRecognitionClient;
     private boolean mInProgress;
 
-    public ActivityRecognizer(Activity context) {
-        this.context = context;
+    public ActivityRecognizer(Activity conte) {
+        this.context = conte;
     }
 
     protected void onCreate(Bundle savedInstanceState) {
         mInProgress = false;
 
-        this.context = context;
         /*
          * Instantiate a new activity recognition client. Since the
          * parent Activity implements the connection listener and
