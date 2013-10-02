@@ -90,7 +90,7 @@ public class MainActivity extends Activity {
         });
 //        Comment this for testing in emulator
 //        myWebView.addJavascriptInterface(sensorData, "Android");
-        myWebView.loadUrl("http://webwizart.be/_play/_w3bsales/app/index.html");
+        myWebView.loadUrl("http://straalstroom.mixlab.be");
         myWebView.setWebViewClient(new WebViewClient(){
 //              problem with redirects in Android > 3 (http://www.catchingtales.com/android-webview-shouldoverrideurlloading-and-redirect/416/)
             @Override
