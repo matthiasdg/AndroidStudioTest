@@ -74,9 +74,11 @@ public class MainActivity extends Activity {
             }
         });
         userAgentString = baseUserAgent + sensorData.toString() + ","+ networkState.toString() + "," + batteryState.toString() +","+ activityState + "}";
-        myWebView.getSettings().setUserAgentString(userAgentString);
         WebSettings webSettings = myWebView.getSettings();
+        webSettings.setUserAgentString(userAgentString);
         webSettings.setJavaScriptEnabled(true);
+//        next line necessary to enable local storage
+//        webSettings.setDomStorageEnabled(true);
 //        console logging van browser ook hier in de debugger zichtbaar
         myWebView.setWebChromeClient(new WebChromeClient() {
             public boolean onConsoleMessage(ConsoleMessage cm) {
@@ -88,7 +90,7 @@ public class MainActivity extends Activity {
         });
 //        Comment this for testing in emulator
 //        myWebView.addJavascriptInterface(sensorData, "Android");
-        myWebView.loadUrl("http://straalstroom.mixlab.be");
+        myWebView.loadUrl("http://webwizart.be/_play/_w3bsales/app/index.html");
         myWebView.setWebViewClient(new WebViewClient(){
 //              problem with redirects in Android > 3 (http://www.catchingtales.com/android-webview-shouldoverrideurlloading-and-redirect/416/)
             @Override
