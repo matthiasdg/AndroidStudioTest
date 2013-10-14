@@ -78,7 +78,7 @@ public class MainActivity extends Activity {
         webSettings.setUserAgentString(userAgentString);
         webSettings.setJavaScriptEnabled(true);
 //        next line necessary to enable local storage
-//        webSettings.setDomStorageEnabled(true);
+        webSettings.setDomStorageEnabled(true);
 //        console logging van browser ook hier in de debugger zichtbaar
         myWebView.setWebChromeClient(new WebChromeClient() {
             public boolean onConsoleMessage(ConsoleMessage cm) {
