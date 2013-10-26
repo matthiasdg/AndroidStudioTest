@@ -12,6 +12,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.webkit.ConsoleMessage;
 import android.webkit.WebChromeClient;
+import android.webkit.WebResourceResponse;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -90,7 +91,7 @@ public class MainActivity extends Activity {
         });
 //        Comment this for testing in emulator
 //        myWebView.addJavascriptInterface(sensorData, "Android");
-        myWebView.loadUrl("http://straalstroom.mixlab.be");
+        myWebView.loadUrl("http://192.168.0.216:3000");
         myWebView.setWebViewClient(new WebViewClient(){
 //              problem with redirects in Android > 3 (http://www.catchingtales.com/android-webview-shouldoverrideurlloading-and-redirect/416/)
             @Override
@@ -120,6 +121,19 @@ public class MainActivity extends Activity {
 //                    public void run()
 //                    {}
 //                });
+            }
+
+            @Override
+            //            if request to file with extension -> don't use special useragent
+            //            don't send to media partners
+            //            POSSIBLE PROBLEMS THOUGH -> UI THREAD + MEMORY LEAK
+            public WebResourceResponse shouldInterceptRequest(WebView wv, String url){
+
+                if(url.matches("(?i).*\\/[a-z0-9]+\\.[a-z0-9]+$")){
+                    //                   default user agent
+                    wv.getSettings().setUserAgentString("");
+                }
+                return null;
             }
         });
     }
