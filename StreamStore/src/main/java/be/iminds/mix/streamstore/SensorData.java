@@ -141,7 +141,7 @@ public class SensorData {
     }
 
     protected Address convertLocationToAddress(Location location){
-        List<Address> addresses = null;
+        List<Address> addresses;
         try{
             addresses = geoCoder.getFromLocation(location.getLatitude(), location.getLongitude(),1);
         }catch(Exception e){
@@ -220,7 +220,7 @@ public class SensorData {
     public void resume(){
         int nrListeners = 0;
         if(locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) nrListeners++;
-        if(locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) nrListeners++;
+//        if(locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) nrListeners++;
         // Define a listener that responds to location updates
 //        separate for GPS and network
         for(int i = 0; i < nrListeners; i++){
@@ -245,6 +245,6 @@ public class SensorData {
             locationListeners.add(locListener);
         }
         if(locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 10000, 0, locationListeners.get(0));
-        if(locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER))locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 10000, 0, locationListeners.get(1));
+//        if(locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER))locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 10000, 0, locationListeners.get(1));
     }
 }

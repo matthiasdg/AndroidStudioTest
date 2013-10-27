@@ -38,6 +38,7 @@ public class MainActivity extends Activity {
     IntentFilter intentFilter;
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         intentFilter = new IntentFilter("StreamStore");
@@ -91,7 +92,7 @@ public class MainActivity extends Activity {
         });
 //        Comment this for testing in emulator
 //        myWebView.addJavascriptInterface(sensorData, "Android");
-        myWebView.loadUrl("http://192.168.0.216:3000");
+
         myWebView.setWebViewClient(new WebViewClient(){
 //              problem with redirects in Android > 3 (http://www.catchingtales.com/android-webview-shouldoverrideurlloading-and-redirect/416/)
             @Override
@@ -136,6 +137,10 @@ public class MainActivity extends Activity {
                 return null;
             }
         });
+
+        myWebView.loadUrl("http://straalstroom.mixlab.be");
+
+
     }
     @Override
     protected void onResume(){
@@ -144,6 +149,7 @@ public class MainActivity extends Activity {
         registerReceiver(receiver, intentFilter);
         sensorData.resume();
         acrec.startUpdates();
+
     }
 
     @Override
