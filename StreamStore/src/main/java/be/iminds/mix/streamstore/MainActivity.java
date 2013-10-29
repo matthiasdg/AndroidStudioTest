@@ -69,7 +69,6 @@ public class MainActivity extends Activity {
                 if(event.getAction() == MotionEvent.ACTION_DOWN){
                     userAgentString = baseUserAgent + sensorData.toString() + ","+ networkState.toString() + "," + batteryState.toString() +","+ activityState + "}";
                     myWebView.getSettings().setUserAgentString(userAgentString);
-                    Log.d("TOUCHDOWN!", userAgentString);
 //                event moet nog geprocessed worden in webview
                 }
                 return false;
@@ -177,17 +176,13 @@ public class MainActivity extends Activity {
                 return true;
             }
         }
+        if(keyCode == KeyEvent.KEYCODE_MENU){
+            myWebView.loadUrl("javascript:App.Views.sidebar.toggle()");
+            return true;
+        }
         // If it wasn't the Back key or there's no web page history, bubble up to the default
         // system behavior (probably exit the activity)
         return super.onKeyDown(keyCode, event);
-    }
-
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
     }
 
 }
