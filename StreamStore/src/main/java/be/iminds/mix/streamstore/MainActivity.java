@@ -1,13 +1,14 @@
 package be.iminds.mix.streamstore;
 
 
+import android.content.Intent;
 import android.content.IntentFilter;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.app.Activity;
 import android.util.Log;
 import android.view.KeyEvent;
-import android.view.Menu;
 import android.view.MotionEvent;
 import android.view.View;
 import android.webkit.ConsoleMessage;
@@ -18,6 +19,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
 import android.content.pm.ActivityInfo;
+
 
 public class MainActivity extends Activity {
     WebView myWebView;
@@ -96,13 +98,22 @@ public class MainActivity extends Activity {
 //              problem with redirects in Android > 3 (http://www.catchingtales.com/android-webview-shouldoverrideurlloading-and-redirect/416/)
             @Override
             public boolean shouldOverrideUrlLoading(WebView wv, String url){
-                if(wv.getOriginalUrl()== null || !lastOriginalUrl.equals(wv.getOriginalUrl())){
-                    dialog = MyProgressDialog.show(MainActivity.this, null, null, true, false, null);
+                String regEx = "(?i).*(title=disclaimer|disclaimercim|gebruiksvoorwaarden|overview-projects).*";
+                if(url.matches(regEx)){
+                    Log.d("MyApplication", "true");
+                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                    startActivity(browserIntent);
+                    return true;
+                }else{
+                    if(wv.getOriginalUrl()== null || !lastOriginalUrl.equals(wv.getOriginalUrl())){
+                        dialog = MyProgressDialog.show(MainActivity.this, null, null, true, false, null);
+                    }
+                    Log.d("MyApplication", "shouldoverride: "+ url+" original: "+wv.getOriginalUrl());
+                    lastOriginalUrl = (wv.getOriginalUrl() != null) ? wv.getOriginalUrl(): "";
+                    wv.loadUrl(url);
+                    Log.d("MyApplication", "false");
+                    return true;
                 }
-                Log.d("MyApplication", "shouldoverride: "+ url+" original: "+wv.getOriginalUrl());
-                lastOriginalUrl = (wv.getOriginalUrl() != null) ? wv.getOriginalUrl(): "";
-                wv.loadUrl(url);
-                return true;
             }
 
             @Override
