@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.app.Activity;
+import android.os.Handler;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
@@ -19,6 +20,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
 import android.content.pm.ActivityInfo;
+
 
 
 public class MainActivity extends Activity {
@@ -38,6 +40,7 @@ public class MainActivity extends Activity {
     String userAgentString = "";
     public String activityState;
     IntentFilter intentFilter;
+    private boolean initialized = false;
 
 
 
@@ -100,18 +103,18 @@ public class MainActivity extends Activity {
             public boolean shouldOverrideUrlLoading(WebView wv, String url){
                 String regEx = "(?i).*(title=disclaimer|disclaimercim|gebruiksvoorwaarden|overview-projects).*";
                 if(url.matches(regEx)){
-                    Log.d("MyApplication", "true");
+//                    Log.d("MyApplication", "true");
                     Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
                     startActivity(browserIntent);
                     return true;
                 }else{
-                    if(wv.getOriginalUrl()== null || !lastOriginalUrl.equals(wv.getOriginalUrl())){
+                    if(initialized && (wv.getOriginalUrl()== null || !lastOriginalUrl.equals(wv.getOriginalUrl()))){
                         dialog = MyProgressDialog.show(MainActivity.this, null, null, true, false, null);
                     }
-                    Log.d("MyApplication", "shouldoverride: "+ url+" original: "+wv.getOriginalUrl());
+//                    Log.d("MyApplication", "shouldoverride: "+ url+" original: "+wv.getOriginalUrl());
                     lastOriginalUrl = (wv.getOriginalUrl() != null) ? wv.getOriginalUrl(): "";
                     wv.loadUrl(url);
-                    Log.d("MyApplication", "false");
+//                    Log.d("MyApplication", "false");
                     return true;
                 }
             }
@@ -119,8 +122,18 @@ public class MainActivity extends Activity {
             @Override
             public void onPageFinished(WebView wv, String url){
                 if(dialog != null && dialog.isShowing()) dialog.dismiss();
-                Log.d("MyApplication", "pagefinished: " + url +" original: "+wv.getOriginalUrl());
+//                Log.d("MyApplication", "pagefinished: " + url +" original: "+wv.getOriginalUrl());
 //                Toast.makeText(MainActivity.this, sensorData.toString(), Toast.LENGTH_LONG).show();
+                if(!initialized){
+                    findViewById(R.id.webview).setVisibility(View.VISIBLE);
+                    Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        public void run() {
+                            findViewById(R.id.splash).setVisibility(View.GONE);
+                            initialized = true;
+                        }
+                    }, 3000);
+                }
             }
 
             @Override
@@ -183,7 +196,7 @@ public class MainActivity extends Activity {
 //            FILTHY HACK!!!
             if(!myWebView.getUrl().endsWith("/reader/") && !myWebView.getUrl().endsWith("/reader/#streams/now")){
                 myWebView.goBack();
-                Log.d("TOUCHDOWN!", myWebView.getUrl());
+//                Log.d("TOUCHDOWN!", myWebView.getUrl());
                 return true;
             }
         }

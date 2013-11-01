@@ -183,13 +183,15 @@ containing a value of this type.
         public static final int common_signin_btn_text_pressed_dark=0x7f020016;
         public static final int common_signin_btn_text_pressed_light=0x7f020017;
         public static final int ic_launcher=0x7f020018;
+        public static final int splash=0x7f020019;
     }
     public static final class id {
-        public static final int action_settings=0x7f060006;
+        public static final int action_settings=0x7f060007;
         public static final int hybrid=0x7f060004;
         public static final int none=0x7f060000;
         public static final int normal=0x7f060001;
         public static final int satellite=0x7f060002;
+        public static final int splash=0x7f060006;
         public static final int terrain=0x7f060003;
         public static final int webview=0x7f060005;
     }
