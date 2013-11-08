@@ -229,7 +229,6 @@ public class SensorData {
                 @Override
                 public void onLocationChanged(Location location) {
                     // Called when a new location is found by the location provider.
-                    Log.d("STREAMSTORE", location.getProvider());
                     if(isBetterLocation(location, myLocation)){
                         myLocation = location;
                         address1 = convertLocationToAddress(myLocation);

@@ -129,14 +129,9 @@ containing a value of this type.
         public static final int zOrderOnTop=0x7f01000d;
     }
     public static final class bool {
-        /**  From: file:/Users/matthias/AndroidStudioProjects/StreamStoreProject/StreamStore/src/main/res/values/dimens.xml 
- From: file:/Users/matthias/AndroidStudioProjects/StreamStoreProject/StreamStore/src/main/res/values-sw600dp/dimens.xml 
-         */
         public static final int isTablet=0x7f040000;
     }
     public static final class color {
-        /**  From: file:/Users/matthias/AndroidStudioProjects/StreamStoreProject/StreamStore/build/exploded-bundles/ComGoogleAndroidGmsPlayServices3136.aar/res/values/colors.xml 
-         */
         public static final int common_action_bar_splitter=0x7f050000;
         public static final int common_signin_btn_dark_text_default=0x7f050001;
         public static final int common_signin_btn_dark_text_disabled=0x7f050002;
@@ -151,9 +146,6 @@ containing a value of this type.
         public static final int common_signin_btn_text_light=0x7f05000b;
     }
     public static final class dimen {
-        /**  From: file:/Users/matthias/AndroidStudioProjects/StreamStoreProject/StreamStore/src/main/res/values/dimens.xml 
- From: file:/Users/matthias/AndroidStudioProjects/StreamStoreProject/StreamStore/src/main/res/values-sw720dp-land/dimens.xml 
-         */
         public static final int activity_horizontal_margin=0x7f070000;
         public static final int activity_vertical_margin=0x7f070001;
     }
@@ -186,14 +178,16 @@ containing a value of this type.
         public static final int splash=0x7f020019;
     }
     public static final class id {
-        public static final int action_settings=0x7f060007;
+        public static final int action_settings=0x7f060009;
         public static final int hybrid=0x7f060004;
+        public static final int nonVideoLayout=0x7f060005;
         public static final int none=0x7f060000;
         public static final int normal=0x7f060001;
         public static final int satellite=0x7f060002;
-        public static final int splash=0x7f060006;
+        public static final int splash=0x7f060007;
         public static final int terrain=0x7f060003;
-        public static final int webview=0x7f060005;
+        public static final int videoLayout=0x7f060008;
+        public static final int webview=0x7f060006;
     }
     public static final class layout {
         public static final int activity_main=0x7f030000;
@@ -202,65 +196,11 @@ containing a value of this type.
         public static final int main=0x7f0a0000;
     }
     public static final class string {
-        /**  From: file:/Users/matthias/AndroidStudioProjects/StreamStoreProject/StreamStore/src/main/res/values/strings.xml 
-         */
         public static final int action_settings=0x7f080000;
         public static final int app_name=0x7f080001;
-        /**  From: file:/Users/matthias/AndroidStudioProjects/StreamStoreProject/StreamStore/build/exploded-bundles/ComGoogleAndroidGmsPlayServices3136.aar/res/values/strings.xml 
-         */
         public static final int auth_client_availability_notification_title=0x7f080002;
         public static final int auth_client_play_services_err_notification_msg=0x7f080003;
         public static final int auth_client_requested_by_msg=0x7f080004;
-        /**  From: file:/Users/matthias/AndroidStudioProjects/StreamStoreProject/StreamStore/build/exploded-bundles/ComGoogleAndroidGmsPlayServices3136.aar/res/values-af/strings.xml 
- From: file:/Users/matthias/AndroidStudioProjects/StreamStoreProject/StreamStore/build/exploded-bundles/ComGoogleAndroidGmsPlayServices3136.aar/res/values-am/strings.xml 
- From: file:/Users/matthias/AndroidStudioProjects/StreamStoreProject/StreamStore/build/exploded-bundles/ComGoogleAndroidGmsPlayServices3136.aar/res/values-ar/strings.xml 
- From: file:/Users/matthias/AndroidStudioProjects/StreamStoreProject/StreamStore/build/exploded-bundles/ComGoogleAndroidGmsPlayServices3136.aar/res/values-be/strings.xml 
- From: file:/Users/matthias/AndroidStudioProjects/StreamStoreProject/StreamStore/build/exploded-bundles/ComGoogleAndroidGmsPlayServices3136.aar/res/values-bg/strings.xml 
- From: file:/Users/matthias/AndroidStudioProjects/StreamStoreProject/StreamStore/build/exploded-bundles/ComGoogleAndroidGmsPlayServices3136.aar/res/values-ca/strings.xml 
- From: file:/Users/matthias/AndroidStudioProjects/StreamStoreProject/StreamStore/build/exploded-bundles/ComGoogleAndroidGmsPlayServices3136.aar/res/values-cs/strings.xml 
- From: file:/Users/matthias/AndroidStudioProjects/StreamStoreProject/StreamStore/build/exploded-bundles/ComGoogleAndroidGmsPlayServices3136.aar/res/values-da/strings.xml 
- From: file:/Users/matthias/AndroidStudioProjects/StreamStoreProject/StreamStore/build/exploded-bundles/ComGoogleAndroidGmsPlayServices3136.aar/res/values-de/strings.xml 
- From: file:/Users/matthias/AndroidStudioProjects/StreamStoreProject/StreamStore/build/exploded-bundles/ComGoogleAndroidGmsPlayServices3136.aar/res/values-el/strings.xml 
- From: file:/Users/matthias/AndroidStudioProjects/StreamStoreProject/StreamStore/build/exploded-bundles/ComGoogleAndroidGmsPlayServices3136.aar/res/values-en-rGB/strings.xml 
- From: file:/Users/matthias/AndroidStudioProjects/StreamStoreProject/StreamStore/build/exploded-bundles/ComGoogleAndroidGmsPlayServices3136.aar/res/values-es/strings.xml 
- From: file:/Users/matthias/AndroidStudioProjects/StreamStoreProject/StreamStore/build/exploded-bundles/ComGoogleAndroidGmsPlayServices3136.aar/res/values-es-rUS/strings.xml 
- From: file:/Users/matthias/AndroidStudioProjects/StreamStoreProject/StreamStore/build/exploded-bundles/ComGoogleAndroidGmsPlayServices3136.aar/res/values-et/strings.xml 
- From: file:/Users/matthias/AndroidStudioProjects/StreamStoreProject/StreamStore/build/exploded-bundles/ComGoogleAndroidGmsPlayServices3136.aar/res/values-fa/strings.xml 
- From: file:/Users/matthias/AndroidStudioProjects/StreamStoreProject/StreamStore/build/exploded-bundles/ComGoogleAndroidGmsPlayServices3136.aar/res/values-fi/strings.xml 
- From: file:/Users/matthias/AndroidStudioProjects/StreamStoreProject/StreamStore/build/exploded-bundles/ComGoogleAndroidGmsPlayServices3136.aar/res/values-fr/strings.xml 
- From: file:/Users/matthias/AndroidStudioProjects/StreamStoreProject/StreamStore/build/exploded-bundles/ComGoogleAndroidGmsPlayServices3136.aar/res/values-hi/strings.xml 
- From: file:/Users/matthias/AndroidStudioProjects/StreamStoreProject/StreamStore/build/exploded-bundles/ComGoogleAndroidGmsPlayServices3136.aar/res/values-hr/strings.xml 
- From: file:/Users/matthias/AndroidStudioProjects/StreamStoreProject/StreamStore/build/exploded-bundles/ComGoogleAndroidGmsPlayServices3136.aar/res/values-hu/strings.xml 
- From: file:/Users/matthias/AndroidStudioProjects/StreamStoreProject/StreamStore/build/exploded-bundles/ComGoogleAndroidGmsPlayServices3136.aar/res/values-in/strings.xml 
- From: file:/Users/matthias/AndroidStudioProjects/StreamStoreProject/StreamStore/build/exploded-bundles/ComGoogleAndroidGmsPlayServices3136.aar/res/values-it/strings.xml 
- From: file:/Users/matthias/AndroidStudioProjects/StreamStoreProject/StreamStore/build/exploded-bundles/ComGoogleAndroidGmsPlayServices3136.aar/res/values-iw/strings.xml 
- From: file:/Users/matthias/AndroidStudioProjects/StreamStoreProject/StreamStore/build/exploded-bundles/ComGoogleAndroidGmsPlayServices3136.aar/res/values-ja/strings.xml 
- From: file:/Users/matthias/AndroidStudioProjects/StreamStoreProject/StreamStore/build/exploded-bundles/ComGoogleAndroidGmsPlayServices3136.aar/res/values-ko/strings.xml 
- From: file:/Users/matthias/AndroidStudioProjects/StreamStoreProject/StreamStore/build/exploded-bundles/ComGoogleAndroidGmsPlayServices3136.aar/res/values-lt/strings.xml 
- From: file:/Users/matthias/AndroidStudioProjects/StreamStoreProject/StreamStore/build/exploded-bundles/ComGoogleAndroidGmsPlayServices3136.aar/res/values-lv/strings.xml 
- From: file:/Users/matthias/AndroidStudioProjects/StreamStoreProject/StreamStore/build/exploded-bundles/ComGoogleAndroidGmsPlayServices3136.aar/res/values-ms/strings.xml 
- From: file:/Users/matthias/AndroidStudioProjects/StreamStoreProject/StreamStore/build/exploded-bundles/ComGoogleAndroidGmsPlayServices3136.aar/res/values-nb/strings.xml 
- From: file:/Users/matthias/AndroidStudioProjects/StreamStoreProject/StreamStore/build/exploded-bundles/ComGoogleAndroidGmsPlayServices3136.aar/res/values-nl/strings.xml 
- From: file:/Users/matthias/AndroidStudioProjects/StreamStoreProject/StreamStore/build/exploded-bundles/ComGoogleAndroidGmsPlayServices3136.aar/res/values-pl/strings.xml 
- From: file:/Users/matthias/AndroidStudioProjects/StreamStoreProject/StreamStore/build/exploded-bundles/ComGoogleAndroidGmsPlayServices3136.aar/res/values-pt/strings.xml 
- From: file:/Users/matthias/AndroidStudioProjects/StreamStoreProject/StreamStore/build/exploded-bundles/ComGoogleAndroidGmsPlayServices3136.aar/res/values-pt-rBR/strings.xml 
- From: file:/Users/matthias/AndroidStudioProjects/StreamStoreProject/StreamStore/build/exploded-bundles/ComGoogleAndroidGmsPlayServices3136.aar/res/values-pt-rPT/strings.xml 
- From: file:/Users/matthias/AndroidStudioProjects/StreamStoreProject/StreamStore/build/exploded-bundles/ComGoogleAndroidGmsPlayServices3136.aar/res/values-ro/strings.xml 
- From: file:/Users/matthias/AndroidStudioProjects/StreamStoreProject/StreamStore/build/exploded-bundles/ComGoogleAndroidGmsPlayServices3136.aar/res/values-ru/strings.xml 
- From: file:/Users/matthias/AndroidStudioProjects/StreamStoreProject/StreamStore/build/exploded-bundles/ComGoogleAndroidGmsPlayServices3136.aar/res/values-sk/strings.xml 
- From: file:/Users/matthias/AndroidStudioProjects/StreamStoreProject/StreamStore/build/exploded-bundles/ComGoogleAndroidGmsPlayServices3136.aar/res/values-sl/strings.xml 
- From: file:/Users/matthias/AndroidStudioProjects/StreamStoreProject/StreamStore/build/exploded-bundles/ComGoogleAndroidGmsPlayServices3136.aar/res/values-sr/strings.xml 
- From: file:/Users/matthias/AndroidStudioProjects/StreamStoreProject/StreamStore/build/exploded-bundles/ComGoogleAndroidGmsPlayServices3136.aar/res/values-sv/strings.xml 
- From: file:/Users/matthias/AndroidStudioProjects/StreamStoreProject/StreamStore/build/exploded-bundles/ComGoogleAndroidGmsPlayServices3136.aar/res/values-sw/strings.xml 
- From: file:/Users/matthias/AndroidStudioProjects/StreamStoreProject/StreamStore/build/exploded-bundles/ComGoogleAndroidGmsPlayServices3136.aar/res/values-th/strings.xml 
- From: file:/Users/matthias/AndroidStudioProjects/StreamStoreProject/StreamStore/build/exploded-bundles/ComGoogleAndroidGmsPlayServices3136.aar/res/values-tl/strings.xml 
- From: file:/Users/matthias/AndroidStudioProjects/StreamStoreProject/StreamStore/build/exploded-bundles/ComGoogleAndroidGmsPlayServices3136.aar/res/values-tr/strings.xml 
- From: file:/Users/matthias/AndroidStudioProjects/StreamStoreProject/StreamStore/build/exploded-bundles/ComGoogleAndroidGmsPlayServices3136.aar/res/values-uk/strings.xml 
- From: file:/Users/matthias/AndroidStudioProjects/StreamStoreProject/StreamStore/build/exploded-bundles/ComGoogleAndroidGmsPlayServices3136.aar/res/values-vi/strings.xml 
- From: file:/Users/matthias/AndroidStudioProjects/StreamStoreProject/StreamStore/build/exploded-bundles/ComGoogleAndroidGmsPlayServices3136.aar/res/values-zh-rCN/strings.xml 
- From: file:/Users/matthias/AndroidStudioProjects/StreamStoreProject/StreamStore/build/exploded-bundles/ComGoogleAndroidGmsPlayServices3136.aar/res/values-zh-rTW/strings.xml 
- From: file:/Users/matthias/AndroidStudioProjects/StreamStoreProject/StreamStore/build/exploded-bundles/ComGoogleAndroidGmsPlayServices3136.aar/res/values-zu/strings.xml 
-         */
         public static final int common_google_play_services_enable_button=0x7f080005;
         public static final int common_google_play_services_enable_text=0x7f080006;
         public static final int common_google_play_services_enable_title=0x7f080007;
@@ -276,25 +216,18 @@ containing a value of this type.
         public static final int common_google_play_services_update_title=0x7f080011;
         public static final int common_signin_button_text=0x7f080012;
         public static final int common_signin_button_text_long=0x7f080013;
-        /**  From: file:/Users/matthias/AndroidStudioProjects/StreamStoreProject/StreamStore/src/main/res/values/strings.xml 
-         */
         public static final int hello_world=0x7f080014;
-        /**  From: file:/Users/matthias/AndroidStudioProjects/StreamStoreProject/StreamStore/build/exploded-bundles/ComGoogleAndroidGmsPlayServices3136.aar/res/values/strings.xml 
-         */
         public static final int location_client_ulr_inactive_age_under_13=0x7f080015;
         public static final int location_client_ulr_inactive_age_unknown=0x7f080016;
         public static final int location_client_ulr_inactive_unknown_restriction=0x7f080017;
     }
     public static final class style {
-        /**  From: file:/Users/matthias/AndroidStudioProjects/StreamStoreProject/StreamStore/src/main/res/values/styles.xml 
-
+        /** 
             Theme customizations available in newer API levels can go in
             res/values-vXX/styles.xml, while customizations related to
             backward-compatibility can go here.
         
- From: file:/Users/matthias/AndroidStudioProjects/StreamStoreProject/StreamStore/src/main/res/values-v11/styles.xml 
  API 11 theme customizations can go here. 
- From: file:/Users/matthias/AndroidStudioProjects/StreamStoreProject/StreamStore/src/main/res/values-v14/styles.xml 
  API 14 theme customizations can go here. 
          */
         public static final int AppBaseTheme=0x7f090000;
@@ -304,7 +237,7 @@ containing a value of this type.
         public static final int NewDialog=0x7f090002;
     }
     public static final class styleable {
-        /**  From: file:/Users/matthias/AndroidStudioProjects/StreamStoreProject/StreamStore/build/exploded-bundles/ComGoogleAndroidGmsPlayServices3136.aar/res/values/maps_attrs.xml 
+        /** Attributes that can be used with a MapAttrs.
            <p>Includes the following attributes:</p>
            <table>
            <colgroup align="left" />

@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.webkit.ConsoleMessage;
 import android.webkit.WebChromeClient;
 import android.webkit.WebResourceResponse;
@@ -24,7 +25,8 @@ import android.content.pm.ActivityInfo;
 
 
 public class MainActivity extends Activity {
-    WebView myWebView;
+    VideoEnabledWebView myWebView;
+    VideoEnabledWebChromeClient webChromeClient;
     MyProgressDialog dialog;
     SensorData sensorData;
     NetworkState networkState;
@@ -68,7 +70,10 @@ public class MainActivity extends Activity {
         batteryState = new BatteryState(MainActivity.this);
 //        HeartRateTracker hr = new HeartRateTracker(MainActivity.this,MainActivity.this );
         baseUserAgent = "{\"device\":\"" + device + "\",\"os\": \"Android\",\"osversion\":\"" + osversion + "\",\"devicemodel\":\""+ devicemodel + "\",\"native\": " + natief + ",";
-        myWebView = (WebView) findViewById(R.id.webview);
+        View nonVideoLayout = findViewById(R.id.nonVideoLayout); // Your own view, read class comments
+        ViewGroup videoLayout = (ViewGroup) findViewById(R.id.videoLayout); // Your own view, read class comments
+
+        myWebView = (VideoEnabledWebView) findViewById(R.id.webview);
         myWebView.setOnTouchListener(new View.OnTouchListener() {
             public boolean onTouch(View v, MotionEvent event) {
                 if(event.getAction() == MotionEvent.ACTION_DOWN){
@@ -86,14 +91,23 @@ public class MainActivity extends Activity {
 //        next line necessary to enable local storage
         webSettings.setDomStorageEnabled(true);
 //        console logging van browser ook hier in de debugger zichtbaar
-        myWebView.setWebChromeClient(new WebChromeClient() {
+        webChromeClient = new VideoEnabledWebChromeClient(nonVideoLayout, videoLayout,null, myWebView, MainActivity.this){
             public boolean onConsoleMessage(ConsoleMessage cm) {
                 Log.d("MyApplication", cm.message() + " -- From line "
                         + cm.lineNumber() + " of "
                         + cm.sourceId());
                 return true;
             }
+        };
+        webChromeClient.setOnToggledFullscreen(new VideoEnabledWebChromeClient.ToggledFullscreenCallback()
+        {
+            @Override
+            public void toggledFullscreen(boolean fullscreen)
+            {
+                // Your code to handle the full-screen change, for example showing and hiding the title bar
+            }
         });
+        myWebView.setWebChromeClient(webChromeClient);
 //        Comment this for testing in emulator
 //        myWebView.addJavascriptInterface(sensorData, "Android");
 
@@ -192,6 +206,7 @@ public class MainActivity extends Activity {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         // Check if the key event was the Back button and if there's history
+        if ((keyCode == KeyEvent.KEYCODE_BACK) && webChromeClient.onBackPressed()) return true;
         if ((keyCode == KeyEvent.KEYCODE_BACK) && myWebView.canGoBack()) {
 //            FILTHY HACK!!!
             if(!myWebView.getUrl().endsWith("/reader/") && !myWebView.getUrl().endsWith("/reader/#streams/now")){
