@@ -1,8 +1,6 @@
 package be.iminds.mix.streamstore;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
 import android.media.MediaPlayer.OnErrorListener;
@@ -135,7 +133,7 @@ public class VideoEnabledWebChromeClient extends WebChromeClient implements OnPr
             js1 += "_VideoEnabledWebView.setCurrentVideo(myurl1);";
             webView.loadUrl(js1);
 
-            if(focusedChild.getClass().getName().equals("android.webkit.HTML5VideoFullscreen$VideoTextureView")){
+            if(focusedChild != null && focusedChild.getClass().getName().equals("android.webkit.HTML5VideoFullscreen$VideoTextureView")){
                 try{
                 final Intent i = new Intent();
                 Handler handler = new Handler();
@@ -144,6 +142,7 @@ public class VideoEnabledWebChromeClient extends WebChromeClient implements OnPr
                         i.setDataAndType(Uri.parse(webView.getCurrentvideo()), "video/*");
                 i.setAction(Intent.ACTION_VIEW);
                         context.startActivity(i);
+//                        anders kan je maar 1x fullscreen gaan
                         if(callback != null) callback.onCustomViewHidden();
                     }
                 }, 200);
